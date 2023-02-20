@@ -13,14 +13,24 @@ import style from "./cardinformations.module.css";
 interface PropsCardInfo{
     pokemon: Pokemon;
     classCard: string;
-    ToggleClassCard: (event: MouseEvent<HTMLElement>) => void
+    ToggleClassCard: (event: MouseEvent<HTMLElement>) => void;
+    addPokeCaptured: (pokemon: Pokemon) => void;
+    pokeCaptured: Pokemon[];
 }
 
-export function CardInfo({ pokemon, classCard, ToggleClassCard }: PropsCardInfo) {
+export function CardInfo({ pokemon, classCard, ToggleClassCard, addPokeCaptured, pokeCaptured }: PropsCardInfo) {
     
     const [Pokeball, setPokeball] = useState(PokeballStopped);
     
-    useEffect(() => setPokeball(PokeballStopped), [pokemon]);
+    useEffect(() => {
+        let image = PokeballStopped;
+        pokeCaptured.forEach(poke => {
+            if(poke.name === pokemon.name){
+                image = PokeballStars;
+            }
+        })
+        setPokeball(image);
+    }, [pokemon]);
 
     let types = new Array();
 
@@ -29,9 +39,14 @@ export function CardInfo({ pokemon, classCard, ToggleClassCard }: PropsCardInfo)
     }
 
     function TogglePokeball() {
-        if(Pokeball != PokeballStars){
-            setPokeball(PokeballRotated);
-            setTimeout(() => setPokeball(PokeballStars), 1200);
+        if(Pokeball != PokeballStars){  
+            if(pokeCaptured.length < 5){
+                addPokeCaptured(pokemon);
+                setPokeball(PokeballRotated);
+                setTimeout(() => setPokeball(PokeballStars), 1200);
+            }else{
+                window.alert("já foram capturados os 5 pokemons possiveis.")
+            }
         }
 
     }

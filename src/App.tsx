@@ -31,6 +31,8 @@ function App() {
 
     const [valueSearch, setValueSearch] = useState("");
 
+    const [pokeCaptured, setPokeCaptured] = useState<Pokemon[]>([]);
+
     const loadPokemon = (number: any) => {
         
         const data = fetch(`https://pokeapi.co/api/v2/pokemon/${number}`)
@@ -114,6 +116,10 @@ function App() {
     
     }
 
+    function addPokeCaptured(pokemon: Pokemon){
+        setPokeCaptured([...pokeCaptured, pokemon]);
+    }
+
     return (
         
         <div className="main">
@@ -157,6 +163,8 @@ function App() {
                 pokemon={pokemon}
                 classCard={classCard}
                 ToggleClassCard={ToggleClassCard}
+                addPokeCaptured={addPokeCaptured}
+                pokeCaptured={pokeCaptured}
             />
         </div>
     
