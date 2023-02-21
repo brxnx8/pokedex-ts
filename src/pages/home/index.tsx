@@ -8,7 +8,7 @@ import {
 } from "react";
 import { Button } from "./components/button";
 import { CardInfo } from "./components/cardinformations";
-import { Types } from "./components/divColors/div.styles";
+import { Types } from "../../assets/componentsDefault/divColors/div.styles";
 
 import Pokedex from "../../assets/images/pokedex.png";
 import Load from "../../assets/images/load.gif";

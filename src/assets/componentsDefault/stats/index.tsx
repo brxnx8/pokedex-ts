@@ -1,4 +1,4 @@
-import { Pokemon } from "../../pages/home/index";
+import { Pokemon } from "../../../pages/home/index";
 import style from "./stats.module.css";
 
 interface PropsStats {
@@ -22,16 +22,16 @@ export function Stats({ pokemon }: PropsStats) {
                             <p>{stat.stat.name}</p>
                             <div className={style.statsValues}>
                                 <p>
-                                    {stat.base_stat > 200
-                                        ? 200
+                                    {stat.base_stat > 150
+                                        ? 150
                                         : stat.base_stat}
                                 </p>
                                 <div className={style.input}>
                                     <div
                                         style={{
                                             width: `${
-                                                stat.base_stat > 200
-                                                    ? 200
+                                                stat.base_stat > 150
+                                                    ? 150
                                                     : stat.base_stat
                                             }px`,
                                             height: "85%",

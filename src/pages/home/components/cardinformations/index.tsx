@@ -1,7 +1,10 @@
 import { MouseEvent, useContext, useEffect, useState } from "react";
 import { Pokemon } from "../../index";
-import { DivColored, Types } from "../divColors/div.styles";
-import { Stats } from "../../../../assets/stats";
+import {
+    DivColored,
+    Types,
+} from "../../../../assets/componentsDefault/divColors/div.styles";
+import { Stats } from "../../../../assets/componentsDefault/stats";
 
 import PokeballStopped from "../../../../assets/images/pokeballStopped.gif";
 import PokeballRotated from "../../../../assets/images/pokeballRotated.gif";
