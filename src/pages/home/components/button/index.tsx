@@ -1,16 +1,14 @@
 import style from "./button.module.css";
 
-interface PropsButton{
+interface PropsButton {
     action: string;
     NumberLessOrPlus: (bool: boolean) => void;
 }
 
 export function Button(props: PropsButton) {
-    
     let lessOrPlus = props.action === "Next >" ? true : false;
 
     return (
-        
         <>
             <button
                 onClick={() => {
@@ -21,7 +19,5 @@ export function Button(props: PropsButton) {
                 {props.action}
             </button>
         </>
-    
     );
-
 }

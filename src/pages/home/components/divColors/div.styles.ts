@@ -1,23 +1,24 @@
 import styled from "styled-components";
 
-export type Types = "fire"
-| "water"
-| "grass"
-| "normal"
-| "fighting"
-| "flying"
-| "electric"
-| "poison"
-| "ground"
-| "psychic"
-| "ice"
-| "dragon"
-| "dark"
-| "fairy"
-| "rock"
-| "bug"
-| "ghost"
-| "steel";
+export type Types =
+    | "fire"
+    | "water"
+    | "grass"
+    | "normal"
+    | "fighting"
+    | "flying"
+    | "electric"
+    | "poison"
+    | "ground"
+    | "psychic"
+    | "ice"
+    | "dragon"
+    | "dark"
+    | "fairy"
+    | "rock"
+    | "bug"
+    | "ghost"
+    | "steel";
 
 const colors = {
     fire: "#f08030",
@@ -41,8 +42,7 @@ const colors = {
 };
 
 interface PropsColor {
-    color:  Types;
-        
+    color: Types;
 }
 
 export const DivColored = styled.div<PropsColor>`

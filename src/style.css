@@ -140,3 +140,11 @@ body {
     align-items: center;
     justify-content: center;
 }
+.active{
+    color: black;
+    border-bottom: 1px solid black;
+}
+a{
+    text-decoration: none;
+    color: white;
+}
