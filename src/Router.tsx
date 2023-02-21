@@ -7,7 +7,7 @@ export function Router() {
     return (
         <Routes>
             <Route path="/" element={<Default />}>
-                <Route path="/" element={<Home />} />
+                <Route path="/pokedex-ts" element={<Home />} />
                 <Route path="captured" element={<Captured />} />
             </Route>
         </Routes>

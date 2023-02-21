@@ -6,7 +6,7 @@ export function Header() {
         <header className={style.header}>
             <h1>Pokedex</h1>
             <nav>
-                <NavLink to="/">Pokemons</NavLink>
+                <NavLink to="/pokedex-ts">Pokemons</NavLink>
                 <NavLink to="/captured">Captured</NavLink>
             </nav>
         </header>

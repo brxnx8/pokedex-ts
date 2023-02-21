@@ -46,7 +46,7 @@ export function CardInfo({
     }
 
     function TogglePokeball() {
-        if (Pokeball != PokeballStars) {
+        if (Pokeball === PokeballStopped) {
             if (pokeCaptured.length < 5) {
                 addPokeCaptured(pokemon);
                 setPokeball(PokeballRotated);
