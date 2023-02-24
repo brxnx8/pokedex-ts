@@ -118,7 +118,7 @@ export function Home() {
     function ChangeNumber(event: FormEvent) {
         event.preventDefault();
         if (valueSearch != "") {
-            setNumber(valueSearch);
+            setNumber(valueSearch.toLowerCase());
         }
         if (parseInt(valueSearch) < 1) {
             setNumber(1);
