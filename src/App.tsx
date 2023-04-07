@@ -1,14 +1,15 @@
 import { BrowserRouter } from "react-router-dom";
 import { Router } from "./Router";
-import { Dispatch, SetStateAction, createContext, useState } from "react";
-import { Pokemon } from "./pages/home";
 import { CapturedContextProvider } from "./contexts/capturedContext";
+import { PokeGameProvider } from "./contexts/pokeGameContext";
 
 export function App() {
     return (
         <BrowserRouter>
             <CapturedContextProvider>
-                <Router />
+                <PokeGameProvider>
+                    <Router />
+                </PokeGameProvider>
             </CapturedContextProvider>
         </BrowserRouter>
     );

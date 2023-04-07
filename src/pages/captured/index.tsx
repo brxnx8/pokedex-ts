@@ -5,14 +5,22 @@ import { DivColored } from "../../assets/componentsDefault/divColors/div.styles"
 import style from "./styles.module.css";
 import close from "../../assets/images/close.svg";
 import { Pokemon } from "../home";
+import { PokeGameContext } from "../../contexts/pokeGameContext";
 
 export function Captured() {
     const { pokeCaptured, setPokeCaptured } = useContext(CapturedContext);
 
+    const {pokeGame, setPokeGame} = useContext(PokeGameContext);
+
     function RemovePokemon(pokemon: Pokemon) {
         setPokeCaptured((state) =>
-            state.filter((poke) => {
-                return poke.name != pokemon.name;
+            state.filter((poke, index) => {
+                if(poke.name != pokemon.name){
+                    return true;
+                }else{
+                    pokeGame.splice(index, 1);
+                    return false;
+                }
             })
         );
     }

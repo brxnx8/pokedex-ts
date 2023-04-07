@@ -12,6 +12,8 @@ import PokeballStars from "../../../../assets/images/pokeballStars.png";
 
 import style from "./cardinformations.module.css";
 import { CapturedContext } from "../../../../contexts/capturedContext";
+import { PokeGameContext } from "../../../../contexts/pokeGameContext";
+import { LoadPokemon } from "../../../game/loadPokesMachine";
 
 interface PropsCardInfo {
     pokemon: Pokemon;
@@ -28,6 +30,9 @@ export function CardInfo({
 }: PropsCardInfo) {
     const [Pokeball, setPokeball] = useState(PokeballStopped);
     const { pokeCaptured } = useContext(CapturedContext);
+    const { pokeGame, setPokeGame } = useContext(
+        PokeGameContext
+    );
 
     useEffect(() => {
         let image = PokeballStopped;
@@ -45,12 +50,16 @@ export function CardInfo({
         types.push(pokemon.types[parseInt(obj)].type.name);
     }
 
-    function TogglePokeball() {
+    async function TogglePokeball() {
         if (Pokeball === PokeballStopped) {
             if (pokeCaptured.length < 5) {
                 addPokeCaptured(pokemon);
                 setPokeball(PokeballRotated);
                 setTimeout(() => setPokeball(PokeballStars), 1200);
+                const pokemonGame = await LoadPokemon(
+                    Math.floor(Math.random() * (150 - 1 + 1)) + 1
+                );
+                setPokeGame([...pokeGame, pokemonGame]);
             } else {
                 window.alert("já foram capturados os 5 pokemons possiveis.");
             }

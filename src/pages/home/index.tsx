@@ -14,6 +14,7 @@ import Pokedex from "../../assets/images/pokedex.png";
 import Load from "../../assets/images/load.gif";
 import NotFound from "../../assets/images/notFound.png";
 import { CapturedContext } from "../../contexts/capturedContext";
+import { LoadPokemon } from "../game/loadPokesMachine";
 
 export interface Pokemon {
     id: number;
@@ -44,44 +45,15 @@ export function Home() {
 
     const { pokeCaptured, setPokeCaptured } = useContext(CapturedContext);
 
-    const loadPokemon = (number: any) => {
-        const data = fetch(`https://pokeapi.co/api/v2/pokemon/${number}`)
-            .then((response) => response.json())
-            .then((pokemonData) => {
-                setPokemon({
-                    id: pokemonData.id,
-                    name: pokemonData.name,
-                    imageGif:
-                        pokemonData["sprites"]["versions"]["generation-v"][
-                            "black-white"
-                        ]["animated"]["front_default"],
-                    imageDefault: pokemonData["sprites"]["front_default"],
-                    imageCard:
-                        pokemonData["sprites"]["other"]["official-artwork"][
-                            "front_default"
-                        ],
-                    stats: pokemonData.stats,
-                    types: pokemonData.types,
-                    weight: pokemonData.weight,
-                    height: pokemonData.height,
-                });
-            })
-            .catch((erro) => {
-                console.clear();
-                setPokemon({
-                    id: isNaN(number) ? NaN : parseInt(number),
-                    name: "Not Found",
-                    imageGif: NotFound,
-                });
-            });
-    };
 
+    
     useEffect(() => {
         setPokemon({
             id: Number(number),
         });
-        setTimeout(() => {
-            loadPokemon(number);
+        setTimeout(async () => {
+            const poke = await LoadPokemon(number);
+            setPokemon(poke)
         }, 700);
     }, [number]);
 
@@ -120,7 +92,7 @@ export function Home() {
         if (valueSearch != "") {
             setNumber(valueSearch.toLowerCase());
         }
-        if (parseInt(valueSearch) < 1) {
+        if(parseInt(valueSearch) < 1) {
             setNumber(1);
         }
     }
