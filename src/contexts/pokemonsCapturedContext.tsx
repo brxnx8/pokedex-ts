@@ -7,7 +7,7 @@ import {
 } from "react";
 import { Pokemon } from "../pages/home";
 
-interface PropsCapturedContext {
+interface PropsPokemonsCapturedContext {
     pokeCaptured: Pokemon[];
     setPokeCaptured: Dispatch<SetStateAction<Pokemon[]>>;
 }
@@ -15,21 +15,21 @@ interface PropsCapturedContexProvider {
     children: ReactNode;
 }
 
-export const CapturedContext = createContext({} as PropsCapturedContext);
+export const PokemonsCapturedContext = createContext({} as PropsPokemonsCapturedContext);
 
-export function CapturedContextProvider({
+export function PokemonsCapturedContextProvider({
     children,
 }: PropsCapturedContexProvider) {
     const [pokeCaptured, setPokeCaptured] = useState<Pokemon[]>([]);
 
     return (
-        <CapturedContext.Provider
+        <PokemonsCapturedContext.Provider
             value={{
                 pokeCaptured,
                 setPokeCaptured,
             }}
         >
             {children}
-        </CapturedContext.Provider>
+        </PokemonsCapturedContext.Provider>
     );
 }

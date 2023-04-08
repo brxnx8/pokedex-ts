@@ -1,4 +1,6 @@
-.button {
+import styled from "styled-components";
+
+export const ButtonLessOrPlus = styled.button`
     width: 50%;
     padding: 4%;
 
@@ -16,12 +18,14 @@
     cursor: pointer;
 
     outline: none;
-}
-.button:hover {
-    background-color: #333333;
-    color: #eee;
-}
-.button:active {
-    box-shadow: inset -4px 4px 0 #222;
-    font-size: 0.9rem;
-}
+
+    &&:hover {
+        background-color: #333333;
+        color: #eee;
+    }
+    &&:active {
+        box-shadow: inset -4px 4px 0 #222;
+        font-size: 0.9rem;
+    }
+`
+

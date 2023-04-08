@@ -8,13 +8,14 @@ import {
 } from "react";
 import { Button } from "./components/button";
 import { CardInfo } from "./components/cardinformations";
-import { Types } from "../../assets/componentsDefault/divColors/div.styles";
+import { Types } from "../../assets/usual/components/divColors/div.styles";
 
 import Pokedex from "../../assets/images/pokedex.png";
 import Load from "../../assets/images/load.gif";
 import NotFound from "../../assets/images/notFound.png";
-import { CapturedContext } from "../../contexts/capturedContext";
-import { LoadPokemon } from "../game/loadPokesMachine";
+import { PokemonsCapturedContext } from "../../contexts/pokemonsCapturedContext";
+import { LoadPokemon } from "../../assets/usual/functions/loadPokemon";
+import { ContainerHome } from "./style";
 
 export interface Pokemon {
     id: number;
@@ -35,38 +36,38 @@ export interface Pokemon {
 }
 
 export function Home() {
+
     const [number, setNumber] = useState<number | string>(1);
-
     const [pokemon, setPokemon] = useState<Pokemon>({} as Pokemon);
-
     const [classCard, setClassCard] = useState("backgroundNone");
-
     const [valueSearch, setValueSearch] = useState("");
+    const { pokeCaptured, setPokeCaptured } = useContext(PokemonsCapturedContext);
 
-    const { pokeCaptured, setPokeCaptured } = useContext(CapturedContext);
-
-
-    
     useEffect(() => {
+
         setPokemon({
             id: Number(number),
         });
         setTimeout(async () => {
             const poke = await LoadPokemon(number);
-            setPokemon(poke)
+            setPokemon(poke);
         }, 700);
+
     }, [number]);
 
     function NumberLessOrPlus(bool: boolean) {
+
         if (bool) {
             setNumber(pokemon.id + 1);
         } else {
             setNumber(pokemon.id > 1 ? pokemon.id - 1 : pokemon.id);
         }
         setValueSearch("");
+
     }
 
     function ToggleClassCard(event: MouseEvent<HTMLElement>) {
+
         if (
             pokemon.imageCard &&
             pokemon.name &&
@@ -78,13 +79,16 @@ export function Home() {
                 setClassCard("backgroundBlock");
             }
         }
+
     }
 
     function ChangeValue(event: ChangeEvent<HTMLInputElement>) {
+
         setValueSearch(event.target.value);
         if (event.target.value === "" && pokemon.imageGif === NotFound) {
             setNumber(1);
         }
+
     }
 
     function ChangeNumber(event: FormEvent) {
@@ -92,17 +96,19 @@ export function Home() {
         if (valueSearch != "") {
             setNumber(valueSearch.toLowerCase());
         }
-        if(parseInt(valueSearch) < 1) {
+        if (parseInt(valueSearch) < 1) {
             setNumber(1);
         }
     }
 
     function addPokeCaptured(pokemon: Pokemon) {
+
         setPokeCaptured([...pokeCaptured, pokemon]);
+    
     }
 
     return (
-        <div className="main">
+        <ContainerHome>
             <img
                 src={
                     pokemon.imageGif
@@ -148,6 +154,7 @@ export function Home() {
                 ToggleClassCard={ToggleClassCard}
                 addPokeCaptured={addPokeCaptured}
             />
-        </div>
+        </ContainerHome>
     );
+
 }

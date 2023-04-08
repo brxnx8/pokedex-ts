@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import { Home } from "./pages/home";
 import { Captured } from "./pages/captured";
-import { Default } from "./assets/componentsDefault/default";
+import { Default } from "./assets/usual/components/default";
 import { Game } from "./pages/game";
 
 export function Router() {

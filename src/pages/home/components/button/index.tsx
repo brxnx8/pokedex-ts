@@ -1,4 +1,4 @@
-import style from "./button.module.css";
+import { ButtonLessOrPlus } from "./style";
 
 interface PropsButton {
     action: string;
@@ -6,18 +6,19 @@ interface PropsButton {
 }
 
 export function Button(props: PropsButton) {
+
     let lessOrPlus = props.action === "Next >" ? true : false;
 
     return (
         <>
-            <button
+            <ButtonLessOrPlus
                 onClick={() => {
                     props.NumberLessOrPlus(lessOrPlus);
                 }}
-                className={style.button}
             >
                 {props.action}
-            </button>
+            </ButtonLessOrPlus>
         </>
     );
+
 }

@@ -43,8 +43,10 @@ const colors = {
 
 interface PropsColor {
     color: Types;
+    display?: string
 }
 
 export const DivColored = styled.div<PropsColor>`
     background-color: ${(props) => colors[props.color]};
+    display: ${(props) => props.display ? props.display: "flex"};
 `;

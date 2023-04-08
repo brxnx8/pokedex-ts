@@ -1,5 +1,5 @@
-import { Pokemon } from "../../../pages/home/index";
-import style from "./stats.module.css";
+import { Pokemon } from "../../../../pages/home";
+import { ConteinerStats } from "./style";
 
 interface PropsStats {
     pokemon: Pokemon;
@@ -13,20 +13,20 @@ export function Stats({ pokemon }: PropsStats) {
     }
 
     return (
-        <section className={style.statsConteiner}>
+        <ConteinerStats>
             <h2>Base Stats</h2>
-            <section className={style.statsInfomations}>
+            <section className={"statsInfomations"}>
                 {stats.map((stat) => {
                     return (
-                        <div key={stat.stat.url} className={style.statsNames}>
+                        <div key={stat.stat.url} className={"statsNames"}>
                             <p>{stat.stat.name}</p>
-                            <div className={style.statsValues}>
+                            <div className={"statsValues"}>
                                 <p>
                                     {stat.base_stat > 150
                                         ? 150
                                         : stat.base_stat}
                                 </p>
-                                <div className={style.input}>
+                                <div className={"input"}>
                                     <div
                                         style={{
                                             width: `${
@@ -46,6 +46,6 @@ export function Stats({ pokemon }: PropsStats) {
                     );
                 })}
             </section>
-        </section>
+        </ConteinerStats>
     );
 }

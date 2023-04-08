@@ -1,23 +1,25 @@
 import { useContext } from "react";
-import { CapturedContext } from "../../contexts/capturedContext";
-import { Stats } from "../../assets/componentsDefault/stats";
-import { DivColored } from "../../assets/componentsDefault/divColors/div.styles";
-import style from "./styles.module.css";
-import close from "../../assets/images/close.svg";
+import { PokemonsCapturedContext } from "../../contexts/pokemonsCapturedContext";
+import { Stats } from "../../assets/usual/components/stats";
+import { DivColored } from "../../assets/usual/components/divColors/div.styles";
+import del from "../../assets/images/delete.svg"
 import { Pokemon } from "../home";
-import { PokeGameContext } from "../../contexts/pokeGameContext";
+import { PokeGameContext } from "../../contexts/pokemonsGameContext";
+import { ContainerCaptured } from "./style";
 
 export function Captured() {
-    const { pokeCaptured, setPokeCaptured } = useContext(CapturedContext);
+    const { pokeCaptured, setPokeCaptured } = useContext(
+        PokemonsCapturedContext
+    );
 
-    const {pokeGame, setPokeGame} = useContext(PokeGameContext);
+    const { pokeGame, setPokeGame } = useContext(PokeGameContext);
 
-    function RemovePokemon(pokemon: Pokemon) {
+    function RemovePokemons(pokemon: Pokemon) {
         setPokeCaptured((state) =>
             state.filter((poke, index) => {
-                if(poke.name != pokemon.name){
+                if (poke.name != pokemon.name) {
                     return true;
-                }else{
+                } else {
                     pokeGame.splice(index, 1);
                     return false;
                 }
@@ -26,24 +28,24 @@ export function Captured() {
     }
 
     return (
-        <main className={style.capturedContent}>
+        <ContainerCaptured>
             {pokeCaptured.length > 0 ? (
                 pokeCaptured.map((pokemon) => {
                     return (
                         <DivColored
                             color={pokemon.types![0]["type"]["name"]}
-                            className={style.pokeCard}
+                            className={"pokeCard"}
                             key={pokemon.id}
                         >
                             <img
-                                src={close}
-                                className={style.close}
-                                onClick={() => RemovePokemon(pokemon)}
+                                src={del}
+                                className={"close"}
+                                onClick={() => RemovePokemons(pokemon)}
                             />
                             <img
                                 src={pokemon.imageCard}
                                 alt=""
-                                className={style.pokeImage}
+                                className={"pokeImage"}
                             />
                             <h1>{pokemon.name}</h1>
                             <Stats pokemon={pokemon} />
@@ -51,8 +53,8 @@ export function Captured() {
                     );
                 })
             ) : (
-                <h1 className={style.emptyTitle}>Sem pokemons capturados</h1>
+                <h1 className={"emptyTitle"}>Sem pokemons capturados</h1>
             )}
-        </main>
+        </ContainerCaptured>
     );
 }
