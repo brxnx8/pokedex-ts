@@ -114,13 +114,19 @@ export function Game() {
             case stat.base_stat < statWorse:
                 setTimeout(() => {
                     setPokeGameSelected(pokesGame[indexWorsePokemonGame]);
-                    setTimeout(() => RemovePokemon(true, pokemonUser), 2000);
+                    setTimeout(() =>{
+                        setPokeGameSelected({} as Pokemon);
+                        RemovePokemon(true, pokemonUser)
+                    }, 2000);
                 }, 2000);
                 break;
             case stat.base_stat < statBest:
                 setTimeout(() => {
                     setPokeGameSelected(pokesGame[indexBestPokemonGame]);
-                    setTimeout(() => RemovePokemon(true, pokemonUser), 2000);
+                    setTimeout(() =>{
+                        setPokeGameSelected({} as Pokemon);
+                        RemovePokemon(true, pokemonUser)
+                    }, 2000);
                 }, 2000);
                 break;
             case stat.base_stat === statWorse:
