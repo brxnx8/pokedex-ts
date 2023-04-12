@@ -62,7 +62,6 @@ export function Game() {
     }
 
     function RemovePokemon(IsUser: boolean, pokemon: Pokemon) {
-        console.log(pokesGame.length);
         if (
             (pokesGame.length <= 1 && !IsUser) ||
             (pokeCaptured.length <= 1 && IsUser)
@@ -73,12 +72,14 @@ export function Game() {
                 setPokeCaptured((state) =>
                     state.filter((poke) => poke.name != pokemon.name)
                 );
+                setIndexPokemonCaptured(0);
             } else {
                 setPokesGame((state) =>
                     state.filter((poke) => poke.name != pokemon.name)
                 );
             }
         }
+        
     }
 
     function chooseGamePokemon(
@@ -131,7 +132,6 @@ export function Game() {
                     }, 2000);
                 }, 2000);
                 break;
-
             case stat.base_stat === statBest:
                 setTimeout(() => {
                     setPokeGameSelected(pokesGame[indexWorsePokemonGame]);
@@ -149,9 +149,9 @@ export function Game() {
                         RemovePokemon(false, pokesGame[indexWorsePokemonGame]);
                     }, 2000);
                 }, 2000);
-
                 break;
         }
+
     }
 
     return pokeCaptured.length > 0 ? (
