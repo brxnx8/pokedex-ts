@@ -7,7 +7,7 @@ interface PropsButton {
 
 export function Button(props: PropsButton) {
 
-    let lessOrPlus = props.action === "Next >" ? true : false;
+    let lessOrPlus = props.action === "Prox >" ? true : false;
 
     return (
         <>

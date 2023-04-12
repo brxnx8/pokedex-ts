@@ -2,22 +2,30 @@ import { MouseEvent } from "react";
 import { Pokemon } from "../../../home";
 import { ContainerChooseStats } from "./style";
 
+export interface IStats {
+    base_stat: number;
+    effort: number;
+    stat: { name: string; url: string };
+}
+
 interface PropsChooseStats {
     pokemon: Pokemon;
     display: boolean;
-    chooseGamePokemon: (pokeUser: Pokemon, atributos: string[]) => void;
-    createStats: (pokemon: Pokemon, event: MouseEvent) => void;
+    chooseGamePokemon: (pokeUser: Pokemon, stat: IStats, index: number) => void;
+    createStats: (event: MouseEvent) => void;
 }
 
-export function ChooseStats({ pokemon, chooseGamePokemon, display, createStats }: PropsChooseStats) {
-    
+export function ChooseStats({
+    pokemon,
+    chooseGamePokemon,
+    display,
+    createStats,
+}: PropsChooseStats) {
     const stats = [];
-    const displayNoneOrFlex = display ? "flex" : "none"
+    const displayNoneOrFlex = display ? "flex" : "none";
 
-    function Selected(event: MouseEvent<HTMLElement>) {
-        const selected = event.target as HTMLElement;
-        const statsArray = selected.innerText.split(/[\s,]+/);
-        chooseGamePokemon(pokemon, statsArray);
+    function Selected(stat: IStats, index: number) {
+        chooseGamePokemon(pokemon, stat, index);
     }
 
     for (let obj in pokemon.stats) {
@@ -25,19 +33,26 @@ export function ChooseStats({ pokemon, chooseGamePokemon, display, createStats }
     }
 
     return (
-        <ContainerChooseStats display={displayNoneOrFlex} onClick={(event) => createStats(pokemon, event)}>
+        <ContainerChooseStats
+            display={displayNoneOrFlex}
+            onClick={(event) => createStats(event)}
+        >
             <section className="containerStats">
                 <h2>Selecione um atributo</h2>
                 <section className={"statsInfomations"}>
-                    {stats.map((stat) => {
+                    {stats.map((stat, index) => {
                         return (
                             <div
                                 key={stat.stat.url}
                                 className={"statsNames"}
-                                onClick={(event) => Selected(event)}
+                                onClick={() => Selected(stat, index)}
                             >
                                 <p>{stat.stat.name}</p>
-                                <p>{stat.base_stat > 150 ? 150 : stat.base_stat}</p>
+                                <p>
+                                    {stat.base_stat > 150
+                                        ? 150
+                                        : stat.base_stat}
+                                </p>
                             </div>
                         );
                     })}

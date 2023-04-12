@@ -8,28 +8,26 @@ import {
 import { Pokemon } from "../pages/home";
 
 interface PropsPokeGameContext {
-    pokeGame: Pokemon[];
-    setPokeGame: Dispatch<SetStateAction<Pokemon[]>>;
+    pokesGame: Pokemon[];
+    setPokesGame: Dispatch<SetStateAction<Pokemon[]>>;
 }
 interface PropsPokeGameProvider {
     children: ReactNode;
 }
 
-export const PokeGameContext = createContext({} as PropsPokeGameContext);
+export const PokesGameContext = createContext({} as PropsPokeGameContext);
 
-export function PokeGameProvider({
-    children,
-}: PropsPokeGameProvider) {
-    const [pokeGame, setPokeGame] = useState<Pokemon[]>([]);
+export function PokesGameProvider({ children }: PropsPokeGameProvider) {
+    const [pokesGame, setPokesGame] = useState<Pokemon[]>([]);
 
     return (
-        <PokeGameContext.Provider
+        <PokesGameContext.Provider
             value={{
-                pokeGame,
-                setPokeGame,
+                pokesGame,
+                setPokesGame,
             }}
         >
             {children}
-        </PokeGameContext.Provider>
+        </PokesGameContext.Provider>
     );
 }

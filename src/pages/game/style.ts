@@ -1,25 +1,24 @@
 import styled from "styled-components";
-import wallpaper from "../../assets/images/wallpaperGame.png"
+import wallpaper from "../../assets/images/wallpaperGame.png";
 
-export const ContainerGame = styled.main `
+export const ContainerGame = styled.main`
     background-image: url(${wallpaper});
     background-repeat: no-repeat;
     background-size: cover;
-
 
     padding: 20px 15px;
 
     display: flex;
     gap: 20px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     justify-content: space-between;
     align-items: start;
 
     .pokeCard {
         position: relative;
 
-        width: 425px;
-        height: 540px;
+        width: 420px;
+        height: 490px;
         padding: 5px;
 
         flex-direction: column;
@@ -29,17 +28,34 @@ export const ContainerGame = styled.main `
         border-radius: 2px;
         border: 5px solid rgba(50, 50, 50, 0.831);
     }
-    .containerPokesUser{
+    .containerPokesUser,
+    .containerPokeGame {
         display: flex;
         flex-direction: column;
         justify-content: center;
         gap: 2rem;
     }
-    .titlePokeUser{
+
+    .pokesUser {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .buttonsCarroussel {
+        display: flex;
+        justify-content: center;
+        width: 420px;
+    }
+
+    .pokeGame {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .titlePokeUser {
         color: white;
     }
-    .pokeCard >
-    .pokeImage {
+    .pokeCard > .pokeImage {
         height: 30%;
     }
     .pokeCard > h1 {
@@ -55,7 +71,11 @@ export const ContainerGame = styled.main `
         width: 100%;
         padding: 0;
     }
-`
-   
 
-
+    && Button {
+        width: 180px;
+        margin-left: 10px;
+        height: 50px;
+        padding: 0;
+    }
+`;

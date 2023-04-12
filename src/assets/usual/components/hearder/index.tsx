@@ -8,8 +8,8 @@ export function Header() {
             <h1>Pokedex</h1>
             <nav>
                 <NavLink to="/">Pokemons</NavLink>
-                <NavLink to="/captured">Captured</NavLink>
-                <NavLink to="/game">Game</NavLink>
+                <NavLink to="/captured">Capturados</NavLink>
+                <NavLink to="/game">Jogue</NavLink>
             </nav>
         </ConteinerHeader>
     );

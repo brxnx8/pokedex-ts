@@ -3,140 +3,229 @@ import { PokemonsCapturedContext } from "../../contexts/pokemonsCapturedContext"
 import { Stats } from "../../assets/usual/components/stats";
 import { DivColored } from "../../assets/usual/components/divColors/div.styles";
 import { Pokemon } from "../home";
-import { PokeGameContext } from "../../contexts/pokemonsGameContext";
-import { ChooseStats } from "./components/chooseStats";
+import { PokesGameContext } from "../../contexts/pokemonsGameContext";
+import { ChooseStats, IStats } from "./components/chooseStats";
 import { ContainerGame } from "./style";
+import { Button } from "../home/components/button";
+import { FinishGame } from "./components/finshGame";
 
 export function Game() {
+    const [pokeGameSelected, setPokeGameSelected] = useState({} as Pokemon);
+    const [indexPokemonCaptured, setIndexPokemonCaptured] = useState(0);
+    const [displayChooseStats, setDisplayChooseStats] = useState(false);
+    const [displayFinishGame, setDisplayFinishGame] = useState("none");
+    const [textFinishGame, setTextFinishGame] = useState("none");
+    const { pokesGame, setPokesGame } = useContext(PokesGameContext);
     const { pokeCaptured, setPokeCaptured } = useContext(
         PokemonsCapturedContext
     );
-    const [pokeSelected, setPokeSelected] = useState({} as Pokemon);
-    const [pokeGameSelected, setPokeGameSelected] = useState({} as Pokemon);
-    const [displayChooseStats, setDisplayChooseStats] = useState(false)
-    const { pokeGame, setPokeGame } = useContext(PokeGameContext);
 
-    function createStats(pokemon: Pokemon, event: MouseEvent) {
-       
-        setPokeSelected(pokemon);
-
-        if(event.currentTarget.nodeName === 'DIV'){
+    function createStats(event: MouseEvent) {
+        if (
+            event.currentTarget.nodeName === "DIV" ||
+            event.currentTarget === event.target
+        ) {
             if (displayChooseStats === false) {
                 setDisplayChooseStats(true);
             } else {
                 setDisplayChooseStats(false);
             }
-        }else{
-            if (
-            pokemon.imageCard &&
-            pokemon.name &&
-            event.currentTarget === event.target
-            ) {
-                if (displayChooseStats === false) {
-                    setDisplayChooseStats(true);
-                } else {
-                    setDisplayChooseStats(false);
-                }
-            }
         }
-        
-        
     }
 
-    function chooseGamePokemon(pokemonUser: Pokemon, atributos: string[]) {
-        let bestPokemon = pokeGame[0];
-        let worstPokemon = pokeGame[0];
-        pokeGame.map((pokemon) => {
-            pokemon.stats!.map((state) => {
-                if (state["stat"].name === atributos[0]) {
-                    if (state["base_stat"] > parseInt(atributos[1])) {
-                        console.log("ganhei");
-                        setPokeCaptured((state) => {
-                            return state.filter(
-                                (poke) => poke.name != pokemonUser.name
-                            );
-                        });
-                    } else {
-                        console.log("perdi");
-                        setPokeGame((state) => {
-                            return state.filter(
-                                (poke) => poke.name != pokemon.name
-                            );
-                        });
-                    }
-                }
-            });
-            setPokeGameSelected(pokemon);
+    function carrousselPokeCaptured(bool: boolean) {
+        if (bool) {
+            if (indexPokemonCaptured < pokeCaptured.length - 1) {
+                setIndexPokemonCaptured((state) => state + 1);
+            }
+        } else {
+            if (indexPokemonCaptured > 0) {
+                setIndexPokemonCaptured((state) => state - 1);
+            }
+        }
+    }
+
+    function ResetPokes() {
+        setPokeCaptured([]);
+        setPokesGame([]);
+    }
+
+    function RestartGame(IsUserLose: boolean) {
+        setInterval(() => {
+            setDisplayFinishGame("flex");
+            if (IsUserLose) {
+                setTextFinishGame("Que pena, você perdeu!");
+            } else {
+                setTextFinishGame("Parabens, você ganhou!");
+            }
+        }, 2000);
+    }
+
+    function RemovePokemon(IsUser: boolean, pokemon: Pokemon) {
+        console.log(pokesGame.length);
+        if (
+            (pokesGame.length <= 1 && !IsUser) ||
+            (pokeCaptured.length <= 1 && IsUser)
+        ) {
+            RestartGame(IsUser);
+        } else {
+            if (IsUser) {
+                setPokeCaptured((state) =>
+                    state.filter((poke) => poke.name != pokemon.name)
+                );
+            } else {
+                setPokesGame((state) =>
+                    state.filter((poke) => poke.name != pokemon.name)
+                );
+            }
+        }
+    }
+
+    function chooseGamePokemon(
+        pokemonUser: Pokemon,
+        stat: IStats,
+        index: number
+    ) {
+        let indexBestPokemonGame = 0;
+        let indexWorsePokemonGame = 0;
+
+        setDisplayChooseStats(false);
+
+        pokesGame.forEach((pokemon, indexPokemon) => {
+            const statBest =
+                pokesGame[indexBestPokemonGame]["stats"]![index].base_stat;
+            const statWorse =
+                pokesGame[indexWorsePokemonGame]["stats"]![index].base_stat;
+            const statCompare = pokemon["stats"]![index].base_stat;
+
+            if (statCompare > statBest) {
+                indexBestPokemonGame = indexPokemon;
+            } else if (statCompare < statWorse) {
+                indexWorsePokemonGame = indexPokemon;
+            }
         });
-        console.log();
+        const statBest =
+            pokesGame[indexBestPokemonGame]["stats"]![index].base_stat;
+        const statWorse =
+            pokesGame[indexWorsePokemonGame]["stats"]![index].base_stat;
+
+        switch (true) {
+            case stat.base_stat < statWorse:
+                setTimeout(() => {
+                    setPokeGameSelected(pokesGame[indexWorsePokemonGame]);
+                    setTimeout(() => RemovePokemon(true, pokemonUser), 2000);
+                }, 2000);
+                break;
+            case stat.base_stat < statBest:
+                setTimeout(() => {
+                    setPokeGameSelected(pokesGame[indexBestPokemonGame]);
+                    setTimeout(() => RemovePokemon(true, pokemonUser), 2000);
+                }, 2000);
+                break;
+            case stat.base_stat === statWorse:
+                setTimeout(() => {
+                    setPokeGameSelected(pokesGame[indexWorsePokemonGame]);
+                    setTimeout(() => {
+                        setPokeGameSelected({} as Pokemon);
+                        RemovePokemon(false, pokesGame[indexWorsePokemonGame]);
+                    }, 2000);
+                }, 2000);
+                break;
+
+            case stat.base_stat === statBest:
+                setTimeout(() => {
+                    setPokeGameSelected(pokesGame[indexWorsePokemonGame]);
+                    setTimeout(() => {
+                        setPokeGameSelected({} as Pokemon);
+                        RemovePokemon(false, pokesGame[indexWorsePokemonGame]);
+                    }, 2000);
+                }, 2000);
+                break;
+            default:
+                setTimeout(() => {
+                    setPokeGameSelected(pokesGame[indexWorsePokemonGame]);
+                    setTimeout(() => {
+                        setPokeGameSelected({} as Pokemon);
+                        RemovePokemon(false, pokesGame[indexWorsePokemonGame]);
+                    }, 2000);
+                }, 2000);
+
+                break;
+        }
     }
 
     return pokeCaptured.length > 0 ? (
         <ContainerGame>
             <div className="containerPokesUser">
-                <h1 className="titlePokeUser" >Escolha seu Pokemon. Você possui {pokeCaptured.length} pokemons</h1>
+                <h1 className="titlePokeUser">
+                    Escolha seu Pokemon. Você possui {pokeCaptured.length}{" "}
+                    pokemons
+                </h1>
                 <div className="pokesUser">
-                        {pokeCaptured.map((pokemon) => {
-                            return (
-                                <DivColored
-                                    color={pokemon.types![0]["type"]["name"]}
-                                    className={"pokeCard"}
-                                    key={pokemon.id}
-                                    onClick={(event) => createStats(pokemon, event)}
-                                >
-                                    <img
-                                        src={pokemon.imageCard}
-                                        alt=""
-                                        className={"pokeImage"}
-                                    />
-                                    <h1>{pokemon.name}</h1>
-                                    <Stats pokemon={pokemon} />
-                                </DivColored>
-                            );
-                        })}
-                   
+                    <DivColored
+                        color={
+                            pokeCaptured[indexPokemonCaptured].types![0][
+                                "type"
+                            ]["name"]
+                        }
+                        className={"pokeCard"}
+                        key={pokeCaptured[indexPokemonCaptured].id}
+                        onClick={(event) => createStats(event)}
+                    >
+                        <img
+                            src={pokeCaptured[indexPokemonCaptured].imageCard}
+                            alt=""
+                            className={"pokeImage"}
+                        />
+                        <h1>{pokeCaptured[indexPokemonCaptured].name}</h1>
+                        <Stats pokemon={pokeCaptured[indexPokemonCaptured]} />
+                    </DivColored>
+                    <div className="buttonsCarroussel">
+                        <Button
+                            NumberLessOrPlus={carrousselPokeCaptured}
+                            action="< Ant"
+                        />
+                        <Button
+                            NumberLessOrPlus={carrousselPokeCaptured}
+                            action="Prox >"
+                        />
+                    </div>
                 </div>
             </div>
-            <div>
-                <div>
-                    {pokeGame.length > 0 ? (
-                        <>
-                            <h1 className="titlePokeGame">Pokemon da Máquina. Resta {pokeGame.length} pokemons</h1>
-                            <DivColored
-                                color={
-                                    pokeGameSelected.types
-                                        ? pokeGameSelected.types![0]["type"][
-                                              "name"
-                                          ]
-                                        : "fire"
-                                }
-                                className={"pokeCard"}
-                                key={pokeGameSelected.id}
-                                display="none"
-                            >
-                                <img
-                                    src={pokeGameSelected.imageCard}
-                                    alt=""
-                                    className={"pokeImage"}
-                                />
-                                <h1>{pokeGameSelected.name}</h1>
-                                <Stats pokemon={pokeGameSelected} />
-                            </DivColored>
-                        </>
-                    ) : (
-                        <h1 className={"emptyTitle"}>
-                            Não tenho mais pokemons. Parabens, você ganhou!
-                        </h1>
+            <div className="containerPokeGame">
+                <h1 className="titlePokeGame">
+                    Pokemon da Máquina. Restam {pokesGame.length} pokemons
+                </h1>
+                <div className="pokeGame">
+                    {pokeGameSelected.name && (
+                        <DivColored
+                            color={pokeGameSelected.types![0]["type"]["name"]}
+                            className={"pokeCard"}
+                            key={pokeGameSelected.id}
+                        >
+                            <img
+                                src={pokeGameSelected.imageCard}
+                                alt=""
+                                className={"pokeImage"}
+                            />
+                            <h1>{pokeGameSelected.name}</h1>
+                            <Stats pokemon={pokeGameSelected} />
+                        </DivColored>
                     )}
                 </div>
             </div>
             <ChooseStats
-                pokemon={pokeSelected}
+                pokemon={pokeCaptured[indexPokemonCaptured]}
                 chooseGamePokemon={chooseGamePokemon}
                 display={displayChooseStats}
-                createStats = {createStats}
+                createStats={createStats}
             />
-            </ContainerGame>
+            <FinishGame
+                display={displayFinishGame}
+                text={textFinishGame}
+                reset={() => ResetPokes()}
+            />
+        </ContainerGame>
     ) : (
         <h1 className="emptyTitleGame">Primeiro capture alguns pokemons</h1>
     );

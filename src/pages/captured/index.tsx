@@ -2,9 +2,9 @@ import { useContext } from "react";
 import { PokemonsCapturedContext } from "../../contexts/pokemonsCapturedContext";
 import { Stats } from "../../assets/usual/components/stats";
 import { DivColored } from "../../assets/usual/components/divColors/div.styles";
-import del from "../../assets/images/delete.svg"
+import del from "../../assets/images/delete.svg";
 import { Pokemon } from "../home";
-import { PokeGameContext } from "../../contexts/pokemonsGameContext";
+import { PokesGameContext } from "../../contexts/pokemonsGameContext";
 import { ContainerCaptured } from "./style";
 
 export function Captured() {
@@ -12,7 +12,7 @@ export function Captured() {
         PokemonsCapturedContext
     );
 
-    const { pokeGame, setPokeGame } = useContext(PokeGameContext);
+    const { pokesGame, setPokesGame } = useContext(PokesGameContext);
 
     function RemovePokemons(pokemon: Pokemon) {
         setPokeCaptured((state) =>
@@ -20,7 +20,7 @@ export function Captured() {
                 if (poke.name != pokemon.name) {
                     return true;
                 } else {
-                    pokeGame.splice(index, 1);
+                    pokesGame.splice(index, 1);
                     return false;
                 }
             })

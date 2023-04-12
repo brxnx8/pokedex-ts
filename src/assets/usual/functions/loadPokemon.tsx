@@ -24,7 +24,7 @@ export const LoadPokemon = async (index: any) => {
     } catch {
         return {
             id: isNaN(index) ? NaN : parseInt(index),
-            name: "Not Found",
+            name: "Não Encontrado",
             imageGif: NotFound,
         };
     }

@@ -126,18 +126,18 @@ export function Home() {
             <img src={Pokedex} alt="pokedex" className="pokedex" />
             <h1 className="poke-name" onClick={ToggleClassCard}>
                 <span>
-                    {!pokemon.name || pokemon.name === "Not Found"
+                    {!pokemon.name || pokemon.name === "Não Encontrado"
                         ? ""
                         : pokemon.id}{" "}
                     -{" "}
                 </span>
-                {pokemon.name ? pokemon.name : "Loading..."}
+                {pokemon.name ? pokemon.name : "Carregando..."}
             </h1>
             <form onSubmit={ChangeNumber}>
                 <input
                     type="search"
                     className="searchPokemon"
-                    placeholder="Name or Number..."
+                    placeholder="Nome ou número..."
                     onChange={ChangeValue}
                     value={valueSearch}
                     name="search"
@@ -145,8 +145,8 @@ export function Home() {
                 <button className="ButtonSearchPokemon">Search</button>
             </form>
             <div className="buttons">
-                <Button action="< Prev" NumberLessOrPlus={NumberLessOrPlus} />
-                <Button action="Next >" NumberLessOrPlus={NumberLessOrPlus} />
+                <Button action="< Ant" NumberLessOrPlus={NumberLessOrPlus} />
+                <Button action="Prox >" NumberLessOrPlus={NumberLessOrPlus} />
             </div>
             <CardInfo
                 pokemon={pokemon}

@@ -6,7 +6,7 @@ import PokeballStopped from "../../../../assets/images/pokeballStopped.gif";
 import PokeballRotated from "../../../../assets/images/pokeballRotated.gif";
 import PokeballStars from "../../../../assets/images/pokeballStars.png";
 import { PokemonsCapturedContext } from "../../../../contexts/pokemonsCapturedContext";
-import { PokeGameContext } from "../../../../contexts/pokemonsGameContext";
+import { PokesGameContext } from "../../../../contexts/pokemonsGameContext";
 import { LoadPokemon } from "../../../../assets/usual/functions/loadPokemon";
 import { ContainerCard } from "./style";
 
@@ -26,7 +26,7 @@ export function CardInfo({
 
     const [Pokeball, setPokeball] = useState(PokeballStopped);
     const { pokeCaptured } = useContext(PokemonsCapturedContext);
-    const { pokeGame, setPokeGame } = useContext(PokeGameContext);
+    const { pokesGame, setPokesGame } = useContext(PokesGameContext);
     let types = new Array();
 
     for (let obj in pokemon.types) {
@@ -53,11 +53,11 @@ export function CardInfo({
                 addPokeCaptured(pokemon);
                 setPokeball(PokeballRotated);
                 setTimeout(() => setPokeball(PokeballStars), 1200);
-                if (pokeGame.length < 5) {
+                if (pokesGame.length < 5) {
                     const pokemonGame = await LoadPokemon(
                         Math.floor(Math.random() * (150 - 1 + 1)) + 1
                     );
-                    setPokeGame([...pokeGame, pokemonGame]);
+                    setPokesGame([...pokesGame, pokemonGame]);
                 }
             } else {
                 window.alert("já foram capturados os 5 pokemons possiveis.");
