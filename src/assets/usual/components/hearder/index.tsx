@@ -7,7 +7,7 @@ export function Header() {
         <ConteinerHeader>
             <h1>Pokedex</h1>
             <nav>
-                <NavLink to="/">Pokemons</NavLink>
+                <NavLink to="/pokedex-ts">Pokemons</NavLink>
                 <NavLink to="/captured">Capturados</NavLink>
                 <NavLink to="/game">Jogue</NavLink>
             </nav>
